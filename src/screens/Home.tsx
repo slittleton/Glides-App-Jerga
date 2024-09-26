@@ -1,16 +1,33 @@
-import { Component, createSignal, createUniqueId, For } from "solid-js";
+import { Component, createEffect, createSignal, createUniqueId, For, onCleanup, onMount, Show } from "solid-js";
 import GlidePost from "../components/glides/GlidePost";
 
 import { FaRegularImage } from "solid-icons/fa";
 import { Glide } from "../types/Glide";
 import MainLayout from "../components/layouts/MainLayout";
+import pageSize from "../reacive/pageSize";
+
+
+// const HelloWorld: Component<{}> = (props) => {
+//   onMount(()=> console.log('onMount triggered on Helloworld'))
+//   onCleanup(()=> console.log('onCleanup Triggered on Helloworld'))
+//   return <div>gasfsadfasf</div>;
+// };
+
 
 
 const HomeScreen: Component<{}> = (props) => {
     const [content, setContent] = createSignal('');
     const [glides, setGlides] = createSignal<Glide[]>([]);
-    const createGlide = () => {
+    const [displayContent, setDisplayContent] = createSignal(false)
+    const testValue = pageSize
 
+    onMount(()=>console.log('HOME'))
+    // createEffect(()=>{
+    //     console.log("Create Effect runs when state changes IF you run a state function inside createEffect")
+    //     console.log(glides().length)
+    // })
+
+    const createGlide = () => {
         const glide: Glide = {
             id: createUniqueId(),
             content: content(),
@@ -22,15 +39,18 @@ const HomeScreen: Component<{}> = (props) => {
             subglidesCount: 0,
             date: new Date()
         }
-
         setGlides([...glides(), glide])
         // console.log(JSON.stringify(glides()))
-
-
         setContent('')
-
-
     }
+
+    onMount(()=>{
+
+    })
+    onCleanup(()=>{
+
+    })
+
     return (
         <MainLayout>
             {/* HOME PAGE START */}
@@ -87,9 +107,12 @@ const HomeScreen: Component<{}> = (props) => {
             <div class="h-px bg-gray-700 my-1" />
             {/* GLIDE POST START */}
             <For each={glides()}>
-               { (glide)=>(<GlidePost glide={glide}/>)}
+                {(glide) => (<GlidePost glide={glide} />)}
             </For>
-           
+            {/* <button onClick={()=>{ setDisplayContent(!displayContent())}}>Toggle Content</button>
+            <Show when={displayContent()}>
+                <HelloWorld/>
+            </Show> */}
             {/* GLIDE POST END */}
             {/* HOME PAGE END */}
         </MainLayout>

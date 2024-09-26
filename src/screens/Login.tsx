@@ -1,6 +1,9 @@
+import { A } from "@solidjs/router";
 import { Component } from "solid-js";
+import pageSize from "../reacive/pageSize";
 
 const LoginScreen: Component = () => {
+  const testValue = pageSize
   return (
     <div class="flex-it justify-center items-center h-full">
       <div class="text-white text-4xl font-bold">Glider - Get In</div>
@@ -39,9 +42,9 @@ const LoginScreen: Component = () => {
               </div>
               <div class="text-sm text-gray-600 pb-4">
                 No Account Yet?{" "}
-                <a class="hover:underline" href="#">
+                <A class="underline" href="/auth/register">
                   Create a new account
-                </a>
+                </A>
               </div>
               <div class="flex-it py-2">
                 <button
