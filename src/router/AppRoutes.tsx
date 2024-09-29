@@ -3,29 +3,38 @@ import HomeScreen from "../screens/Home";
 import App from "../App";
 import AuthLayout from "../components/layouts/AuthLayout";
 import { lazy } from "solid-js";
+import AuthProvider from "../context/AuthProvider";
 
 
-const LoginScreen = lazy(()=>import("../screens/Login"))
-const RegisterScreen = lazy(()=>import("../screens/Register"))
+const LoginScreen = lazy(() => import("../screens/Login"))
+const RegisterScreen = lazy(() => import("../screens/Register"))
+
+// const authSate =  useAuthState()
 
 
 const AppRoutes = () => {
     return (
-        <Router root={App}>
+        <>
 
-            <Route>
-                <Route path="/" component={HomeScreen}></Route>
-                <Route path="" component={HomeScreen}></Route>
-            </Route>
+            <AuthProvider>
 
+                <Router root={App}>
 
-            <Route path="/auth" component={AuthLayout}>
-                <Route path="/login" component={LoginScreen}></Route>
-                <Route path="/register" component={RegisterScreen}></Route>
-            </Route>
+                    <Route>
+                        <Route path="/" component={HomeScreen}></Route>
+                        <Route path="" component={HomeScreen}></Route>
+                    </Route>
 
 
-        </Router>)
+                    <Route path="/auth" component={AuthLayout}>
+                        <Route path="/login" component={LoginScreen}></Route>
+                        <Route path="/register" component={RegisterScreen}></Route>
+                    </Route>
+
+
+                </Router>
+            </AuthProvider>
+        </>)
 };
 
 

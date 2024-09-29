@@ -13,9 +13,14 @@ import "./index.css"
 
 
 
+
 const App: Component<ParentProps> = (props) => {
     return (
-        props.children
+        <>
+        
+        {props.children}
+        </>
+        
     );
 };
 

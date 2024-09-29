@@ -1,10 +1,12 @@
-import { Component, createEffect, createSignal, createUniqueId, For, onCleanup, onMount, Show } from "solid-js";
+import { Component, Context, createEffect, createSignal, createUniqueId, For, onCleanup, onMount, Show, useContext } from "solid-js";
 import GlidePost from "../components/glides/GlidePost";
 
 import { FaRegularImage } from "solid-icons/fa";
 import { Glide } from "../types/Glide";
 import MainLayout from "../components/layouts/MainLayout";
 import pageSize from "../reacive/pageSize";
+import { useAuthState } from "../context/AuthProvider";
+
 
 
 // const HelloWorld: Component<{}> = (props) => {
@@ -13,21 +15,34 @@ import pageSize from "../reacive/pageSize";
 //   return <div>gasfsadfasf</div>;
 // };
 
-
+type AuthStateContextValues = {
+    isAuthenticated: boolean,
+    loading:boolean
+}
 
 const HomeScreen: Component<{}> = (props) => {
     const [content, setContent] = createSignal('');
     const [glides, setGlides] = createSignal<Glide[]>([]);
     const [displayContent, setDisplayContent] = createSignal(false)
-    const testValue = pageSize
 
-    onMount(()=>console.log('HOME'))
+
+    // console.log("LOADING ", authState.loading())
+
     // createEffect(()=>{
     //     console.log("Create Effect runs when state changes IF you run a state function inside createEffect")
     //     console.log(glides().length)
     // })
 
+    const authState = useAuthState()
+   
+    // console.dir(authState)
+    // const [store, setStore] = authState
+
     const createGlide = () => {
+
+        // authState!.setStore('isAuthenticated', !authState.isAuthenticated)
+        // setStore('isAuthenticated', !store.isAuthenticated)
+
         const glide: Glide = {
             id: createUniqueId(),
             content: content(),
@@ -44,6 +59,7 @@ const HomeScreen: Component<{}> = (props) => {
         setContent('')
     }
 
+
     onMount(()=>{
 
     })
@@ -53,8 +69,11 @@ const HomeScreen: Component<{}> = (props) => {
 
     return (
         <MainLayout>
+
+
             {/* HOME PAGE START */}
             <div class="flex-it py-1 px-4 flex-row">
+            <div class="text-white">AUTHENTICATED: {JSON.stringify(authState.isAuthenticated)}</div>
                 <div class="flex-it mr-4">
                     <div class="w-12 h-12 overflow-visible cursor-pointer transition duration-200 hover:opacity-80">
                         <img

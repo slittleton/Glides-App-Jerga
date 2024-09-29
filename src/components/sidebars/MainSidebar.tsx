@@ -1,15 +1,17 @@
-import { Component, For } from "solid-js";
+import { Component, For, Show } from "solid-js";
 import { CgProfile, CgMoreO, CgPlayButton } from "solid-icons/cg";
 import { IoNotificationsCircleOutline } from "solid-icons/io";
-import { RiMapCompassDiscoverLine } from "solid-icons/ri";
+import { RiDesignQuillPenLine, RiMapCompassDiscoverLine } from "solid-icons/ri";
 import { AiOutlineHome } from "solid-icons/ai";
 import { FiMoreHorizontal } from "solid-icons/fi";
 import { links } from "./links";
 import { A } from "@solidjs/router";
 import Popup from "../../utils/Popup";
+import pageSize from "../../reacive/pageSize";
 
 
 const MainSidebar: Component = () => {
+
   return (
     <header class="lg:flex-grow flex-it items-end">
       <div class="xl:w-80 w-20 flex-it">
@@ -49,7 +51,13 @@ const MainSidebar: Component = () => {
               <div class="my-1 flex-it w-10/12 cursor-pointer">
                 <div class="bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded-full flex-it transition">
                   <div class="flex-it flex-row text-xl font-bold text-white items-start justify-center truncate duration-200">
-                    <div>Glide It</div>
+                    <Show
+                      when={pageSize.isXL() == true}
+                      fallback={<RiDesignQuillPenLine />}
+                    >
+                      <div>Glide It</div>
+                    </Show>
+
                   </div>
                 </div>
               </div>

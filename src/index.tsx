@@ -7,6 +7,9 @@ import RegisterScreen from './screens/Register'
 import MainLayout from './components/layouts/MainLayout'
 import AuthLayout from './components/layouts/AuthLayout'
 import AppRoutes from './router/AppRoutes'
+import AuthProvider from './context/AuthProvider'
+
+
 
 
 
@@ -14,8 +17,12 @@ render(
     () => {
         return (
             <>
-                <div id="popups"></div>
-                <AppRoutes />
+                <AuthProvider>
+                {/* <div class="text-white">AUTHENTICATED: {authState?.isAuthenticated}</div>  */}
+                    <div id="popups"></div>
+                    <AppRoutes />
+                </AuthProvider>
+
             </>
 
         )
