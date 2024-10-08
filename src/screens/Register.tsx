@@ -1,9 +1,40 @@
 import { A } from "@solidjs/router";
-import { Component } from "solid-js";
+import { Accessor, Component, createSignal } from "solid-js";
+import useForm from "../hooks/useForm";
+import { RegisterForm } from "../types/Form";
+
+
+declare module "solid-js" {
+    namespace JSX {
+        interface Directives {
+            validate: number;
+        }
+    }
+}
+
+
 
 const RegisterScreen: Component = () => {
+    const { handleInput, submitForm, validate, form } = useForm<RegisterForm>({
+        fullName: '',
+        nickName: '',
+        email: '',
+        avatar: '',
+        password: '',
+        passwordConfirmation: ''
+    });
+
+    const onFormSubmit = (form: RegisterForm) => {
+        // note: this function carries the scope of its parent useForm which contains a store with the form values
+        // you can see below on the submit form button that this function is passed to useForm and then executed in that context
+        console.log('Submiting registration form', form);
+
+    };
+
+
     return (
         <div class="flex-it justify-center items-center h-full">
+
             <div class="text-white text-4xl font-bold">Glider - Create Account</div>
             <div class="mt-10 flex-it h-100 xs:w-100 w-full bg-white p-10 rounded-2xl">
                 <div class="flex-it">
@@ -16,6 +47,8 @@ const RegisterScreen: Component = () => {
                                             Full Name
                                         </label>
                                         <input
+                                            use:validate={100}
+                                            onInput={e => handleInput(e)}
                                             type="text"
                                             name="fullName"
                                             id="fullName"
@@ -31,6 +64,7 @@ const RegisterScreen: Component = () => {
                                             Nick Name
                                         </label>
                                         <input
+                                            onInput={e => handleInput(e)}
                                             type="text"
                                             name="nickName"
                                             id="nickName"
@@ -43,6 +77,7 @@ const RegisterScreen: Component = () => {
                                             Email
                                         </label>
                                         <input
+                                            onInput={e => handleInput(e)}
                                             type="text"
                                             name="email"
                                             id="email"
@@ -55,6 +90,7 @@ const RegisterScreen: Component = () => {
                                             Avatar
                                         </label>
                                         <input
+                                            onInput={e => handleInput(e)}
                                             type="text"
                                             name="avatar"
                                             id="avatar"
@@ -67,6 +103,7 @@ const RegisterScreen: Component = () => {
                                             Password
                                         </label>
                                         <input
+                                            onInput={e => handleInput(e)}
                                             type="password"
                                             name="password"
                                             id="password"
@@ -79,6 +116,7 @@ const RegisterScreen: Component = () => {
                                             Password Confirmation
                                         </label>
                                         <input
+                                            onInput={e => handleInput(e)}
                                             type="password"
                                             name="passwordConfirmation"
                                             id="passwordConfirmation"
@@ -95,6 +133,7 @@ const RegisterScreen: Component = () => {
                             </div>
                             <div class="flex-it py-2">
                                 <button
+                                    onClick={submitForm(onFormSubmit)}
                                     type="button"
                                     class="
                   bg-blue-400 hover:bg-blue-500 focus:ring-0

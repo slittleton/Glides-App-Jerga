@@ -26,7 +26,7 @@ const HomeScreen: Component<{}> = (props) => {
     const [displayContent, setDisplayContent] = createSignal(false)
 
 
-    // console.log("LOADING ", authState.loading())
+   
 
     // createEffect(()=>{
     //     console.log("Create Effect runs when state changes IF you run a state function inside createEffect")
@@ -34,9 +34,8 @@ const HomeScreen: Component<{}> = (props) => {
     // })
 
     const authState = useAuthState()
-   
-    // console.dir(authState)
-    // const [store, setStore] = authState
+
+
 
     const createGlide = () => {
 

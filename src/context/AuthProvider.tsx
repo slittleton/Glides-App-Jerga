@@ -1,72 +1,95 @@
 import { IoTrendingUp } from "solid-icons/io";
 import {
     Accessor,
+    Context,
     createContext,
     createSignal,
     onCleanup,
     onMount,
     ParentComponent,
     Setter,
+    Show,
     useContext
 } from "solid-js";
 import { createStore } from "solid-js/store";
+import Loader from "../utils/Loader";
 
 
 
 type AuthState = {
     isAuthenticated: boolean;
     loading: boolean;
-  };
+};
 
 const initialState = () => ({
     isAuthenticated: false,
     loading: true,
-})
+});
 
 type AuthStateContextValues = {
     isAuthenticated: boolean,
-    loading:boolean,
-    store: Accessor<Object>,
-    updateStore:  <K extends keyof AuthState>(propName: K, propValue: AuthState[K]) => void;
-}
-const AuthStateContext = createContext()
+    loading: boolean,
+
+};
+const AuthStateContext: Context<any> = createContext();
 
 const AuthProvider: ParentComponent = (props) => {
 
-    const [store, setStore] = createStore({
-        isAuthenticated: false,
-        loading: true,
-    })
+    const [store, setStore] = createStore(initialState());
+    console.log('Loading in AuthProviderNo', store.loading)
 
-    const updateStore =  <K extends keyof AuthState>(propName:K, propValue:AuthState[K])=>{
-        setStore(propName, propValue)
-    }
+    const updateStore = <K extends keyof AuthState>(propName: K, propValue: AuthState[K]) => {
+        setStore(propName, propValue);
 
+    };
 
     const authenticateUser = async () => {
-                return new Promise( (res) => {
-                    setTimeout(() => {
-                        setStore("isAuthenticated", true)
-                        res(true)
-                    }, 1000)
-                })
-            }
+        
+
+        return new Promise((res, rej) => {
+            setTimeout(() => {
+
+                console.log('PROMISE', store.loading)
+                setStore("isAuthenticated", false);
+                
+                
+                res(true);
+                rej("AUTH ERROR SEE AUTHPROVIDER FILE");
+            }, 500);
+        });
+    };
+
     onMount(async () => {
-        authenticateUser()
-        console.log("AUTH PROVIDER onMOunt")
-    })
+        try {
+            await authenticateUser();
+            console.log("AUTH PROVIDER onMOunt");
+        } catch (e) {
+            console.log("ERROR WITH AUTH PROVIDER", e);
+        }
+        finally {
+            setStore('loading', false);
+        }
+    });
     onCleanup(() => {
-        console.log("AUTH PROVIDER onCleanup")
-    })
+        console.log("AUTH PROVIDER onCleanup");
+    });
     return (
         <AuthStateContext.Provider
             value={store}
         >
-            {props.children}
-        </AuthStateContext.Provider>)
-}
-export const useAuthState = () => useContext(AuthStateContext)
-export default AuthProvider
+            <Show
+                when={store.loading === true}
+                fallback={props.children}
+            >
+                <Loader size={100} />
+
+            </Show>
+
+
+        </AuthStateContext.Provider>);
+};
+export const useAuthState = () => useContext(AuthStateContext);
+export default AuthProvider;
 
 
 

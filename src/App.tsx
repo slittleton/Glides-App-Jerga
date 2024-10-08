@@ -10,14 +10,17 @@ import LoginScreen from "./screens/Login";
 import RegisterScreen from "./screens/Register";
 import { Router, Route } from "@solidjs/router";
 import "./index.css"
+import { useAuthState } from "./context/AuthProvider";
 
 
 
 
 const App: Component<ParentProps> = (props) => {
+
     return (
         <>
-        
+        {/* <div class="text-white">AUTHENTICATED: {JSON.stringify(authState.isAuthenticated)}</div>
+        <div class="text-white">LOADING: {JSON.stringify(authState.loading)}</div> */}
         {props.children}
         </>
         

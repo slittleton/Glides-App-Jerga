@@ -1,11 +1,18 @@
 import { A } from "@solidjs/router";
 import { Component } from "solid-js";
 import pageSize from "../reacive/pageSize";
+import useForm from "../hooks/useForm";
 
 const LoginScreen: Component = () => {
-  const testValue = pageSize
+  const { handleInput, submitForm } = useForm({
+    email: '',
+    password: ''
+  });
+
+  const testValue = pageSize;
   return (
     <div class="flex-it justify-center items-center h-full">
+
       <div class="text-white text-4xl font-bold">Glider - Get In</div>
       <div class="mt-10 flex-it h-100 xs:w-100 w-full bg-white p-10 rounded-2xl">
         <div class="flex-it">
